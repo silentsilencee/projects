@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-select.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/d3.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/d3.v3.js') }}"></script>
+    <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+    <title>Pool Calibration Annotation Tool</title>
+</head>
+
+<style>
+.active {
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+body {
+background-color:  #CCCCCC;
+  background-color: #373E4B;
+
+}
+
+.btn-new {
+      background-color: #2C303C;
+      color: #80A46A;
+}
+.btn-new:hover{
+  background-color: #3F4554;
+  color: #E88082;
+  /*color: #477299;*/
+}
+.btn-new:active{
+  background-color: #2C303C;
+  color: #80A46A;
+}
+.btn-new:focus{
+  background-color: #2C303C;
+  color: #80A46A;
+}
+</style>
+
+<body>
+<div class = "container-fluid text-center" style="margin-top:50px">
+    <h1 align="left" style="margin-left:20px;color:#98B1C4;">Pool Calibration Annotation Tool</h1>
+
+    <span style="color:#6691b8;font-size:13pt;margin-right:10px;">Select folder: </span>
+    <select id="gameSel" class="selectpicker" data-style="btn-new" data-width="fit">
+      <optgroup label="Cal games">
+        <option value='67'>20180127_CHNvCAL</option>
+        <option value='78'>20180127_UCDvCAL</option>
+        <option value='78'>20180128_FSUvCAL</option>
+        <option value='66'>20180128_SJSUvCAL</option>
+        <option value='66'>20180128_UCIvCAL</option>
+        <option value='71'>20180217_CALvUCD</option>
+        <option value='65'>20180217_CHNvCAL</option>
+        <option value='71'>20180223_CSUNvCAL</option>
+        <option value='69'>20180224_UCIvCAL</option>
+        <option value='68'>20180224_USCvCAL</option>
+        <option value='61'>20180225_UCLAvCAL</option>
+      </optgroup>
+      <optgroup label="Scout games">
+        <option value='65'>20180127_CHNvSTAN</option>
+        <option value='52'>20180127_UCIvSTAN</option>
+        <option value='62'>20180128_SJSUvSTAN</option>
+        <option value='61'>20180223_LBSUvSTAN</option>
+        <option value='57'>20180223_LMUvUCI</option>
+        <option value=75>20180223_SDSUvHAW</option>
+        <option value=67>20180223_SJSUvUSC</option>
+        <option value='55'>20180223_UCSBvUCLA</option>
+        <option value='66'>20180224_ASUvUSC</option>
+        <option value='63'>20180224_HAWvUCLA</option>
+        <option value='63'>20180224_UCIvASU</option>
+        <option value='61'>20180224_UCLAvSTAN</option>
+        <option value='74'>20180224_UOPvSTAN</option>
+        <option value='70'>20180225_ASUvHAW</option>
+        <option value='62'>20180225_USCvSTAN</option>
+      </optgroup>
+    </select>
+    <span style="color:#6691b8;font-size:13pt;margin-left:30px;margin-right:10px;">Select image: </span>
+    <input type="text" id="myVal" value="0" size="5" style="margin-left:20px;margin-right:20px;text-align:center;">
+    <div class="btn-group">
+        <button type="button" id="prevBtn" class="btn btn-md btn-default" style = "width: 120px; height:40px">Prev</button>
+        <button type="button" id="nextBtn" class="btn btn-md btn-default" style = "width: 120px; height:40px">Next</button>
+    </div>
+    <span style = "margin-left:30px;color:#6691b8;font-size:13pt;">Camera facing:</span>
+    <div class="btn-group" style = "margin-left:30px;">
+        <button type="button" id = "camera_left" class="btn btn-md btn-default active" style = "width: 120px; height:40px">Cam Left</button>
+        <button type="button" id = "camera_right" class="btn btn-md btn-default" style = "width: 120px; height:40px">Cam Right</button>
+    </div>
+    <span style = "margin-left:30px;color:#6691b8;font-size:13pt;">Potentially useful:</span>
+    <div class="btn-group" style = "margin-left:30px">
+        <button type="button" id="submitBtn" class="btn btn-md btn-success" style = "width: 120px; height:40px">Submit</button>
+        <button type="button" id="resetBtn" class="btn btn-md btn-default" style = "width: 120px; height:40px">Reset All</button>
+    </div>
+    <br><br>
+    <div>
+        <div class = "row text-center">
+            <div id = "groundtruth"></div>
+        </div>
+        <div class = "col-xs-12" id="img"></div>
+    </div>
+    <div id="loading" style = "display:none;position:fixed; top:30%; left:50%; margin-left:-150px; z-index:5;">
+        <img src="{{ url_for('static', filename='imgs/loadingBar.gif') }}" alt="load" />
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}?v=15"></script>
+</body>
+</html>
